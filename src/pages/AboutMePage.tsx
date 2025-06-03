@@ -76,11 +76,11 @@ const AboutMe = () => {
             <MotionVStack
               variants={itemVariants}
               align={{ base: "center", lg: "flex-start" }}
-              spacing={6}
+              gap={6}
               flex="1"
               maxW={{ base: "100%", lg: "600px" }}
             >
-              <VStack align={{ base: "center", lg: "flex-start" }} spacing={4}>
+              <VStack align={{ base: "center", lg: "flex-start" }} gap={4}>
                 <Badge
                   colorScheme="primary"
                   variant="subtle"
@@ -116,7 +116,7 @@ const AboutMe = () => {
                 </Text>
               </VStack>
               
-              <HStack spacing={4} pt={2}>
+              <HStack gap={4} pt={2}>
                 <Button
                   as={RouterLink}
                   to="/projects"
@@ -197,9 +197,9 @@ const AboutMe = () => {
                 </Heading>
                 <Box w="60px" h="4px" bg={accentColor} borderRadius="full" />
               </MotionVStack>
-
-              <SimpleGrid columns={{ base: 1, lg: 2 }} gap={12} alignItems="center">
-                <MotionVStack variants={itemVariants} gap={6} align="stretch">
+              
+              <VStack gap={8} align="stretch" maxW="800px" mx="auto">
+                <MotionBox variants={itemVariants}>
                   <Text fontSize={{ base: "md", md: "lg" }} color="fg.DEFAULT" lineHeight="1.7">
                     My path to web development is driven by a deep passion for
                     leveraging technology to solve real-world problems. While my years
@@ -207,11 +207,14 @@ const AboutMe = () => {
                     communication skills, they also ignited a desire to find new avenues
                     for positive change at scale.
                   </Text>
+                </MotionBox>
+                
+                <MotionBox variants={itemVariants}>
                   <Text fontSize={{ base: "md", md: "lg" }} color="fg.DEFAULT" lineHeight="1.7">
                     The transition into web development felt like a natural progression,
                     combining my love for education with the power of technology.
                   </Text>
-                </MotionVStack>
+                </MotionBox>
 
                 <MotionBox
                   variants={itemVariants}
@@ -221,18 +224,27 @@ const AboutMe = () => {
                   border="1px solid"
                   borderColor={borderColor}
                   boxShadow="lg"
+                  position="relative"
+                  _before={{
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    w: "4px",
+                    h: "100%",
+                    bg: accentColor,
+                    borderRadius: "full",
+                  }}
                 >
-                  <VStack gap={4} align="stretch">
-                    <Icon as={FaArrowRight} color={accentColor} boxSize={6} />
-                    <Text fontSize={{ base: "md", md: "lg" }} color="fg.DEFAULT" lineHeight="1.7">
-                      Now, as a web developer, I apply my expertise to craft inclusive and
-                      user-centric digital experiences. My dedication to web accessibility
-                      (WCAG) isn't just a technical skill; it's a core value, stemming
-                      from my commitment to ensuring technology empowers everyone.
-                    </Text>
-                  </VStack>
+                  <Text fontSize={{ base: "md", md: "lg" }} color="fg.DEFAULT" lineHeight="1.7">
+                    Now, as a web developer, I apply my expertise to craft inclusive and
+                    user-centric digital experiences. My dedication to web accessibility
+                    (WCAG) isn't just a technical skill; it's a core value, stemming
+                    from my commitment to ensuring technology empowers everyone.
+                  </Text>
                 </MotionBox>
-              </SimpleGrid>
+              </VStack>
+              
             </VStack>
           </MotionBox>
         </Container>
@@ -293,7 +305,7 @@ const AboutMe = () => {
                   transition="all 0.3s ease"
                   cursor="pointer"
                 >
-                  <VStack align="flex-start" spacing={4} h="100%">
+                  <VStack align="flex-start" gap={4} h="100%">
                     <Box
                       w={12}
                       h={12}
@@ -344,8 +356,8 @@ const AboutMe = () => {
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            <VStack spacing={12}>
-              <MotionVStack variants={itemVariants} spacing={6} textAlign="center">
+            <VStack gap={12}>
+              <MotionVStack variants={itemVariants} gap={6} textAlign="center">
                 <Heading
                   as="h2"
                   size={{ base: "xl", md: "2xl" }}
@@ -365,7 +377,7 @@ const AboutMe = () => {
                 </Text>
               </MotionVStack>
 
-              <MotionHStack variants={itemVariants} spacing={6} justify="center">
+              <MotionHStack variants={itemVariants} gap={6} justify="center">
                 <IconButtonLink
                   href="https://www.linkedin.com/in/gonzalocorral/"
                   icon={FaLinkedin}

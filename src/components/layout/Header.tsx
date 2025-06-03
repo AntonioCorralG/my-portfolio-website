@@ -1,33 +1,72 @@
 import React from 'react';
-import { Box, Flex, HStack, Text, Button, useBreakpointValue } from '@chakra-ui/react'; // Import useBreakpointValue
+import { 
+  Box, 
+  Flex, 
+  HStack, 
+  Text, 
+  Button, 
+  Container,
+  IconButton,
+  useBreakpointValue 
+} from '@chakra-ui/react';
+import {
+  MenuRoot,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+} from '@chakra-ui/react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { ColorModeButton, useColorModeValue } from '@/components/ui/color-mode';
+import { FaBars } from 'react-icons/fa';
+import { motion } from "framer-motion";
+
+// Motion components  
+const MotionBox = motion(Box);
+const MotionFlex = motion(Flex);
 
 interface NavLinkProps {
   to: string;
   label: string;
   isActive: boolean;
+  onClick?: () => void;
 }
 
-const NavLink: React.FC<NavLinkProps> = ({ to, label, isActive }) => {
-  const activeColor = useColorModeValue('primary.solid', 'primary.solid');
-  const inactiveColor = useColorModeValue('fg.muted', 'fg.muted'); // Keep inactive muted
-
-  const fontSize = useBreakpointValue({
-    base: isActive ? 'lg' : 'sm', // On mobile, active is 'lg', inactive is 'sm'
-    md: isActive ? 'xl' : 'md',  // On desktop, active is 'xl', inactive is 'md'
-  });
+const NavLink: React.FC<NavLinkProps> = ({ to, label, isActive, onClick }) => {
+  const primaryColor = useColorModeValue('primary.solid', 'primary.solid');
+  const textColor = useColorModeValue('fg.DEFAULT', 'fg.DEFAULT');
+  const textMuted = useColorModeValue('gray.600', 'gray.400');
 
   return (
     <Button
       as={RouterLink}
       to={to}
       variant="ghost"
-      color={isActive ? activeColor : inactiveColor}
-      fontWeight={isActive ? 'bold' : 'normal'}
-      fontSize={fontSize} // Use the responsive font size
-      _hover={{ color: activeColor, textDecoration: 'underline' }}
-      whiteSpace="nowrap" // Prevent wrapping for short labels
+      size="sm"
+      color={isActive ? primaryColor : textMuted}
+      fontWeight={isActive ? '600' : '400'}
+      fontSize="sm"
+      px={3}
+      py={2}
+      borderRadius="lg"
+      position="relative"
+      onClick={onClick}
+      _hover={{ 
+        color: primaryColor,
+        bg: useColorModeValue('gray.100', 'gray.700')
+      }}
+      _after={isActive ? {
+        content: '""',
+        position: 'absolute',
+        bottom: '-2px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '20px',
+        height: '2px',
+        bg: primaryColor,
+        borderRadius: 'full'
+      } : {}}
+      transition="all 0.2s ease"
+      whiteSpace="nowrap"
     >
       {label}
     </Button>
@@ -37,66 +76,147 @@ const NavLink: React.FC<NavLinkProps> = ({ to, label, isActive }) => {
 const Header = () => {
   const location = useLocation();
   const activePath = location.pathname;
+  
+  const primaryColor = useColorModeValue('primary.solid', 'primary.solid');
+  const headerBg = useColorModeValue('white/80', 'gray.900/80');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
 
   const navItems = [
-    { path: '/', label: 'About Me' },
+    { path: '/', label: 'About' },
     { path: '/projects', label: 'Projects' },
     { path: '/skills', label: 'Skills' },
     { path: '/blog', label: 'Blog' },
-    { path: '/contact', label: 'Contact Me' },
+    { path: '/contact', label: 'Contact' },
   ];
 
-  // Determine if it's a mobile view
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const isMobile = useBreakpointValue({ base: true, lg: false });
+
+  // Animation variants
+  const headerVariants = {
+    hidden: { y: -100, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
 
   return (
-    <Box as="header" width="100%" px={{ base: 4, md: 8 }} py="4" borderBottom="1px" borderColor="border.DEFAULT" bg="bg.DEFAULT" position="sticky" top="0" zIndex="sticky">
-      <Flex align="center" justify="space-between" maxW="container.xl" mx="auto"
-        // Adjust flex direction based on mobile/desktop
-        direction={{ base: 'column', md: 'row' }}
-      >
-        {/* Mobile: Big Title, Desktop: Your Name (Logo) */}
-        <Text
-          fontSize={{ base: '2xl', md: '2xl' }} // Keep 2xl on mobile, also 2xl on desktop
-          fontWeight="bold"
-          color="primary.solid"
-          as={RouterLink} to="/"
-          mb={{ base: 2, md: 0 }} // Add margin bottom on mobile for spacing
-          display={{ base: 'block', md: 'block' }} // Always display
+    <MotionBox
+      as="header"
+      position="sticky"
+      top="0"
+      zIndex="sticky"
+      bg={headerBg}
+      backdropFilter="blur(10px)"
+      borderBottom="1px solid"
+      borderColor={borderColor}
+      boxShadow="sm"
+      initial="hidden"
+      animate="visible"
+      variants={headerVariants}
+    >
+      <Container maxW="container.xl" px={{ base: 4, md: 6 }}>
+        <MotionFlex
+          align="center"
+          justify="space-between"
+          h="16"
+          gap={4}
         >
-          {isMobile ? navItems.find(item => item.path === activePath)?.label || 'Portfolio' : 'Gonzalo Corral'}
-        </Text>
+          {/* Logo/Brand */}
+          <Text
+            as={RouterLink}
+            to="/"
+            fontSize={{ base: 'xl', md: '2xl' }}
+            fontWeight="800"
+            color={primaryColor}
+            textDecoration="none"
+            _hover={{ 
+              transform: 'scale(1.05)',
+              color: primaryColor
+            }}
+            transition="all 0.2s ease"
+            flexShrink={0}
+          >
+            Gonzalo Corral
+          </Text>
 
-        {/* Mobile Navigation: horizontal scroll for smaller links */}
-        <HStack as="nav" spacing={{ base: 1, md: 8 }} // Smaller spacing on mobile
-          display="flex" // Always display the nav bar
-          overflowX="auto" // Allow horizontal scrolling if links overflow
-          pb={{ base: 2, md: 0 }} // Padding bottom on mobile for scroll indicator
-          width="100%" // Take full width on mobile
-          justify={{ base: 'center', md: 'flex-end' }} // Center nav links on mobile
-          flexShrink={0} // Don't shrink the nav links
-          px={{ base: 2, md: 0 }} // Add padding for scrolling
-        >
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              label={item.label}
-              isActive={activePath === item.path}
-            />
-          ))}
-          {/* Color mode button outside of the scrolling nav for mobile */}
-          {!isMobile && <ColorModeButton />} {/* Show on desktop only for now */}
-        </HStack>
+          {/* Desktop Navigation */}
+          {!isMobile && (
+            <HStack gap={1} flex="1" justify="center">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  label={item.label}
+                  isActive={activePath === item.path}
+                />
+              ))}
+            </HStack>
+          )}
 
-        {/* Mobile Color Mode Button (separate from nav for layout flexibility) */}
-        {isMobile && (
-          <Box mt={2}> {/* Add margin top for spacing */}
+          {/* Right Section */}
+          <HStack gridTemplate={2} flexShrink={0}>
             <ColorModeButton />
-          </Box>
-        )}
-      </Flex>
-    </Box>
+            
+            {/* Mobile Menu */}
+            {isMobile && (
+              <MenuRoot>
+                <MenuTrigger asChild>
+                  <IconButton
+                    variant="ghost"
+                    size="sm"
+                    aria-label="Open navigation menu"
+                    _hover={{ 
+                      bg: useColorModeValue('gray.100', 'gray.700')
+                    }}
+                  >
+                    <FaBars />
+                  </IconButton>
+                </MenuTrigger>
+                <MenuContent
+                  bg={useColorModeValue('white', 'gray.800')}
+                  border="1px solid"
+                  borderColor={borderColor}
+                  boxShadow="lg"
+                  minW="200px"
+                >
+                  {navItems.map((item) => (
+                    <MenuItem
+                      key={item.path}
+                      asChild
+                      color={activePath === item.path ? primaryColor : useColorModeValue('gray.700', 'gray.300')}
+                      fontWeight={activePath === item.path ? '600' : '400'}
+                      _hover={{ 
+                        bg: useColorModeValue('gray.50', 'gray.700'),
+                        color: primaryColor
+                      }}
+                      _focus={{ 
+                        bg: useColorModeValue('gray.50', 'gray.700')
+                      }}
+                    >
+                      <Text
+                        as={RouterLink}
+                        to={item.path}
+                        display="block"
+                        w="100%"
+                        px={3}
+                        py={2}
+                      >
+                        {item.label}
+                      </Text>
+                    </MenuItem>
+                  ))}
+                </MenuContent>
+              </MenuRoot>
+            )}
+          </HStack>
+        </MotionFlex>
+      </Container>
+    </MotionBox>
   );
 };
 
