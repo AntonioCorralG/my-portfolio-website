@@ -3,8 +3,8 @@ import { useRef, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface SwipeNavigationOptions {
-  threshold?: number; // Minimum distance for a swipe to be recognized (pixels)
-  velocity?: number; // Minimum velocity for a swipe to be recognized
+  threshold?: number;
+  velocity?: number;
 }
 
 export const useSwipeNavigation = (navItems: { path: string; label: string }[], options?: SwipeNavigationOptions) => {
@@ -20,13 +20,15 @@ export const useSwipeNavigation = (navItems: { path: string; label: string }[], 
     currentPathIndex.current = navItems.findIndex(item => item.path === location.pathname);
   }, [location.pathname, navItems]);
 
-  const handleTouchStart = useCallback((e: TouchEvent | React.TouchEvent) => {
-    startX.current = (e instanceof TouchEvent ? e.touches[0].clientX : e.nativeEvent.touches[0].clientX);
+  // These handlers will now be called directly by React's onTouchStart/End.
+  // Their type is React.TouchEvent<HTMLDivElement> because they are attached to a div.
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    startX.current = e.nativeEvent.touches[0].clientX;
     startTime.current = Date.now();
-  }, []);
+  }, []); // Dependencies are stable
 
-  const handleTouchEnd = useCallback((e: TouchEvent | React.TouchEvent) => {
-    const endX = (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.nativeEvent.changedTouches[0].clientX);
+  const handleTouchEnd = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    const endX = e.nativeEvent.changedTouches[0].clientX;
     const endTime = Date.now();
 
     const deltaX = endX - startX.current;
@@ -47,30 +49,12 @@ export const useSwipeNavigation = (navItems: { path: string; label: string }[], 
         }
       }
     }
-  }, [navigate, navItems, threshold, velocity]);
+  }, [navigate, navItems, threshold, velocity]); // Add all relevant dependencies
 
-  const attachListeners = useCallback((element: HTMLElement | null) => {
-    if (element) {
-      element.addEventListener('touchstart', handleTouchStart as EventListener);
-      element.addEventListener('touchend', handleTouchEnd as EventListener);
-      // For desktop users who might click-drag (less common for "swipe" but good for full responsiveness)
-      // element.addEventListener('mousedown', handleTouchStart as EventListener);
-      // element.addEventListener('mouseup', handleTouchEnd as EventListener);
-    }
-    return () => {
-      if (element) {
-        element.removeEventListener('touchstart', handleTouchStart as EventListener);
-        element.removeEventListener('touchend', handleTouchEnd as EventListener);
-        // element.removeEventListener('mousedown', handleTouchStart as EventListener);
-        // element.removeEventListener('mouseup', handleTouchEnd as EventListener);
-      }
-    };
-  }, [handleTouchStart, handleTouchEnd]);
-
-  return attachListeners;
+  // Explicitly return the handlers
+  return { handleTouchStart, handleTouchEnd };
 };
 
-// Nav items definition (can be imported or defined directly where hook is used)
 export const mobileNavItems = [
   { path: '/', label: 'About Me' },
   { path: '/projects', label: 'Projects' },

@@ -5,17 +5,13 @@ import { defineConfig } from '@chakra-ui/react'; // Removed 'type ThemeConfig'
 const BLUE_PRIMARY = '#2A52BF';
 const ORANGE_ACCENT = '#BF472A';
 const GREEN_SECONDARY = '#81BF2A';
-const DARK_BG_ONE = '#3B476A';
+const DARK_BG_ONE = '#1A1A1A';
 const DARK_BG_TWO = '#38402E';
 
 const PRIMARY_DARK_BACKGROUND = DARK_BG_ONE;
 
 // Define the theme configuration
 const config = defineConfig({
-  // THESE PROPERTIES ARE DIRECTLY UNDER THE OBJECT PASSED TO defineConfig
-  initialColorMode: 'system', 
-  useSystemColorMode: true,  
-
   // The 'theme' property holds all your other theme customizations
   theme: {
     semanticTokens: {
@@ -23,13 +19,13 @@ const config = defineConfig({
         // Semantic background colors
         bg: {
           DEFAULT: {
-            value: { _light: '{colors.white}', _dark: PRIMARY_DARK_BACKGROUND },
+            value: { _light: '{colors.gray.100}', _dark: PRIMARY_DARK_BACKGROUND },
           },
           subtle: {
-            value: { _light: '{colors.gray.50}', _dark: '{colors.gray.700}' },
+            value: { _light: '{colors.gray.200}', _dark: '{colors.gray.700}' },
           },
           section: {
-             value: { _light: '{colors.gray.100}', _dark: DARK_BG_TWO },
+             value: { _light: '{colors.gray.300}', _dark: DARK_BG_TWO },
           }
         },
         // Semantic foreground (text) colors

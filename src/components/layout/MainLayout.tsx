@@ -1,30 +1,19 @@
-import React, { useRef, useEffect } from 'react';
-import { Box, useBreakpointValue } from '@chakra-ui/react'; // Import useBreakpointValue
+import React from 'react'; // Removed useEffect if no longer needed for attaching listeners
+import { Box, useBreakpointValue } from '@chakra-ui/react';
 import Header from './Header';
 import Footer from './Footer';
-import { useSwipeNavigation, mobileNavItems } from '@/hooks/useSwipeNavigation'; // Import the hook and nav items
+import { useSwipeNavigation, mobileNavItems } from '@/hooks/useSwipeNavigation';
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const mainContentRef = useRef<HTMLDivElement>(null);
-  const isMobile = useBreakpointValue({ base: true, md: false }); // Determine if on mobile breakpoint
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const attachSwipeListeners = useSwipeNavigation(mobileNavItems);
+  // Correctly destructure the returned handlers from useSwipeNavigation
+  const { handleTouchStart, handleTouchEnd } = useSwipeNavigation(mobileNavItems);
 
-  useEffect(() => {
-    let cleanup: (() => void) | undefined;
-    if (isMobile) { // Only attach swipe listeners on mobile
-      cleanup = attachSwipeListeners(mainContentRef.current);
-    }
-    return () => {
-      if (cleanup) {
-        cleanup();
-      }
-    };
-  }, [isMobile, attachSwipeListeners]);
 
   return (
     <Box minH="100vh" display="flex" flexDirection="column" bg="bg.DEFAULT" color="fg.DEFAULT">
@@ -36,10 +25,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         maxW="container.xl"
         mx="auto"
         width="100%"
-        ref={mainContentRef} // Attach ref for swipe detection
-        overflowX="hidden" // Prevent horizontal scrollbar during swipe
-        onTouchStart={isMobile ? (e) => mainContentRef.current?.dispatchEvent(new TouchEvent('touchstart', e.nativeEvent)) : undefined}
-        onTouchEnd={isMobile ? (e) => mainContentRef.current?.dispatchEvent(new TouchEvent('touchend', e.nativeEvent)) : undefined}
+        overflowX="hidden"
+        onTouchStart={isMobile ? handleTouchStart : undefined}
+        onTouchEnd={isMobile ? handleTouchEnd : undefined}
       >
         {children}
       </Box>
