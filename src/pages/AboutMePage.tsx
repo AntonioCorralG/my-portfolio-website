@@ -14,7 +14,7 @@ import {
   Badge,
   Link,
 } from "@chakra-ui/react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -79,7 +79,7 @@ const AboutMe = () => {
         animate="visible"
         variants={containerVariants}
       >
-        <Container maxW="container.xl" py={{ base: 12, md: 20 }}>
+        <Container maxW="container.xl" py={{ base: 5, md: 10 }}>
           <Flex
             direction={{ base: "column", lg: "row" }}
             align="center"
@@ -133,17 +133,14 @@ const AboutMe = () => {
               <HStack gap={4} pt={2}>
                 <Button
                   onClick={handleNavigateToProjects}
-                  as={RouterLink}
                   colorScheme="primary"
                   size="lg"
-                  // rightIcon={<FaArrowRight />}
                   _hover={{ transform: "translateY(-2px)" }}
                   transition="all 0.2s"
                 >
                   View My Projects
                 </Button>
                 <Button
-                  as={RouterLink}
                   onClick={handleNavigateToContact}
                   variant="outline"
                   size="lg"
@@ -211,7 +208,7 @@ const AboutMe = () => {
       </MotionBox>
 
       {/* Journey Section */}
-      <Box bg={sectionBg} py={{ base: 16, md: 20 }}>
+      <Box bg={sectionBg} py={{ base: 5, md: 15 }}>
         <Container maxW="container.xl">
           <MotionBox
             initial="hidden"
@@ -391,11 +388,9 @@ const AboutMe = () => {
 
             <MotionFlex variants={itemVariants} justify="center" pt={4}>
               <Button
-                as={RouterLink}
                 onClick={handleNavigateToSkills}
                 colorScheme="accent"
                 size="lg"
-                // rightIcon={<FaArrowRight />}
                 _hover={{ transform: "translateY(-2px)" }}
                 transition="all 0.2s"
               >
@@ -438,7 +433,7 @@ const AboutMe = () => {
 
               <MotionHStack variants={itemVariants} gap={6} justify="center">
                 <Button
-                  as={RouterLink}
+                  // as={RouterLink}
                   onClick={handleNavigateToContact}
                   colorScheme="accent"
                   size="lg"

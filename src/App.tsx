@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import MainLayout from '@/components/layout/MainLayout';
 import AboutMePage from '@/pages/AboutMePage';
-// import ProjectsPage from '@/pages/ProjectsPage';
+import ProjectsPage from '@/pages/ProjectsPage';
 // import SkillsPage from '@/pages/SkillsPage';
 // import BlogPage from '@/pages/BlogPage';
 // import ContactPage from '@/pages/ContactPage';
@@ -62,7 +62,7 @@ const AnimatedRoutes = () => {
             transition={pageTransition}
             style={{ width: '100%' }}
           >
-            {/* <ProjectsPage /> */}
+             <ProjectsPage />
           </motion.div>
         } />
         <Route path="/skills" element={

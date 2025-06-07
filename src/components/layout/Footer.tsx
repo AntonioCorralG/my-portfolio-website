@@ -95,7 +95,6 @@ const Footer = () => {
           </HStack>
              <Link href="/resume.pdf" download="Gonzalo_Corral_Resume.pdf">
               <Button
-                as="a"
                 colorScheme="primary"
                 size="md"
                 _hover={{ transform: "translateY(-2px)" }}
