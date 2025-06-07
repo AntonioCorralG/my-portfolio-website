@@ -64,7 +64,7 @@ const ProjectDisplay: React.FC<ProjectDisplayProps> = ({
             w="100%"
             h="100%"
             objectFit="cover"
-            fallbackSrc="https://via.placeholder.com/800x600/2A52BF/ffffff?text=Project+Image"
+            // fallbackSrc="https://via.placeholder.com/800x600/2A52BF/ffffff?text=Project+Image"
           />
           <Box
             position="absolute"
@@ -118,7 +118,7 @@ const ProjectDisplay: React.FC<ProjectDisplayProps> = ({
             </Text>
             <Flex wrap="wrap" gap={2}>
               {selectedProjectData.technologies.map((tech) => {
-                const IconComponent = techIcons[tech] || FaJs;
+                const IconComponent = techIcons[tech];
                 return (
                   <HStack
                     key={tech}
@@ -145,12 +145,10 @@ const ProjectDisplay: React.FC<ProjectDisplayProps> = ({
           {/* Action Buttons - Fixed container */}
           <Box pt={2} flexShrink={0}>
             <HStack gap={3} w="100%">
+              <Link href={selectedProjectData.githubUrl}>
               <Button
                 as={Link}
-                href={selectedProjectData.githubUrl}
-                target="_blank"
                 rel="noopener noreferrer"
-                leftIcon={<FaGithub />}
                 variant="outline"
                 size="sm"
                 flex="1"
@@ -163,15 +161,14 @@ const ProjectDisplay: React.FC<ProjectDisplayProps> = ({
                 }}
                 transition="all 0.2s"
               >
-                View Code
+                 <Icon as={FaGithub} ml={2} /> View Code
               </Button>
+              </Link>
               {selectedProjectData.liveUrl && (
+                <Link href={selectedProjectData.liveUrl}>
                 <Button
                   as={Link}
-                  href={selectedProjectData.liveUrl}
-                  target="_blank"
                   rel="noopener noreferrer"
-                  leftIcon={<FaExternalLinkAlt />}
                   bg={accentColor}
                   color="white"
                   size="sm"
@@ -182,8 +179,10 @@ const ProjectDisplay: React.FC<ProjectDisplayProps> = ({
                   }}
                   transition="all 0.2s"
                 >
+                  <Icon as={FaExternalLinkAlt} />
                   Live Demo
                 </Button>
+                </Link>
               )}
             </HStack>
           </Box>

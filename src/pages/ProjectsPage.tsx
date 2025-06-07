@@ -6,7 +6,6 @@ import {
   Grid,
   GridItem,
   Container,
-  useBreakpointValue,
   VStack,
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
