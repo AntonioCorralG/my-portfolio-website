@@ -1,14 +1,14 @@
 src/index.css
 
 /* Keep root font properties, as these are foundational */
-:root {
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark; /* Keep this to signal browser about theme preference */
+  color-scheme: light dark; */
 
-
+/* 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -25,14 +25,14 @@ a {
 body {
   margin: 0;
   display: flex;
-  place-items: center; /* This might be for centering the app if it's not full width, consider if you still need it */
+  place-items: center; 
   min-width: 320px;
   min-height: 100vh;
 
 }
+ */
 
-
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -48,4 +48,4 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
