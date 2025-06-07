@@ -21,8 +21,8 @@ import { FaBars } from 'react-icons/fa';
 import { motion } from "framer-motion";
 
 // Motion components  
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
+const MotionBox = motion.create(Box);
+const MotionFlex = motion.create(Flex);
 
 interface NavLinkProps {
   to: string;
@@ -33,8 +33,8 @@ interface NavLinkProps {
 
 const NavLink: React.FC<NavLinkProps> = ({ to, label, isActive, onClick }) => {
   const primaryColor = useColorModeValue('primary.solid', 'primary.solid');
-  const textColor = useColorModeValue('fg.DEFAULT', 'fg.DEFAULT');
   const textMuted = useColorModeValue('gray.600', 'gray.400');
+  const hoverBg = useColorModeValue('gray.100', 'gray.700');
 
   return (
     <Button
@@ -52,7 +52,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, label, isActive, onClick }) => {
       onClick={onClick}
       _hover={{ 
         color: primaryColor,
-        bg: useColorModeValue('gray.100', 'gray.700')
+        bg: hoverBg,
       }}
       _after={isActive ? {
         content: '""',
@@ -80,6 +80,11 @@ const Header = () => {
   const primaryColor = useColorModeValue('primary.solid', 'primary.solid');
   const headerBg = useColorModeValue('white/80', 'gray.900/80');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const hoverBg = useColorModeValue('gray.100', 'gray.700');
+  const inactiveColor = useColorModeValue('gray.700', 'gray.300');
+  const menuBg = useColorModeValue('white', 'gray.800');
+  const menuHoverBg = useColorModeValue('gray.50', 'gray.700');
+
 
   const navItems = [
     { path: '/', label: 'About' },
@@ -159,7 +164,7 @@ const Header = () => {
           )}
 
           {/* Right Section */}
-          <HStack gridTemplate={2} flexShrink={0}>
+          <HStack flexShrink={0}>
             <ColorModeButton />
             
             {/* Mobile Menu */}
@@ -171,14 +176,14 @@ const Header = () => {
                     size="sm"
                     aria-label="Open navigation menu"
                     _hover={{ 
-                      bg: useColorModeValue('gray.100', 'gray.700')
+                      bg: hoverBg, 
                     }}
                   >
                     <FaBars />
                   </IconButton>
                 </MenuTrigger>
                 <MenuContent
-                  bg={useColorModeValue('white', 'gray.800')}
+                  bg={menuBg}
                   border="1px solid"
                   borderColor={borderColor}
                   boxShadow="lg"
@@ -188,15 +193,16 @@ const Header = () => {
                     <MenuItem
                       key={item.path}
                       asChild
-                      color={activePath === item.path ? primaryColor : useColorModeValue('gray.700', 'gray.300')}
+                      color={activePath === item.path ? primaryColor : inactiveColor}
                       fontWeight={activePath === item.path ? '600' : '400'}
                       _hover={{ 
-                        bg: useColorModeValue('gray.50', 'gray.700'),
+                        bg:menuHoverBg,
                         color: primaryColor
                       }}
                       _focus={{ 
-                        bg: useColorModeValue('gray.50', 'gray.700')
+                        bg: menuHoverBg,
                       }}
+                      value={item.path}
                     >
                       <Text
                         as={RouterLink}
@@ -205,6 +211,7 @@ const Header = () => {
                         w="100%"
                         px={3}
                         py={2}
+
                       >
                         {item.label}
                       </Text>

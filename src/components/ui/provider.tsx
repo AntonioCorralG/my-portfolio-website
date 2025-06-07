@@ -2,11 +2,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { system } from "@/theme/system"; // Import the `system` object from your theme config
 
 import {
-  ColorModeProvider,
-  type ColorModeProviderProps,
-} from "./color-mode"
+  ColorModeProvider} from "./color-mode"
+import type { ThemeProviderProps } from "next-themes";
 
-export function Provider(props: ColorModeProviderProps) {
+export function Provider(props: ThemeProviderProps) {
   return (
     // Pass the `system` object to ChakraProvider's `value` prop
     <ChakraProvider value={system}>

@@ -7,24 +7,27 @@ import {
   HStack,
   Icon,
   Container,
+  Link,
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { FaLinkedin, FaGithub, FaEnvelope, FaDownload, FaHeart } from "react-icons/fa";
+import {
+  FaLinkedin,
+  FaGithub,
+  FaEnvelope,
+  FaDownload,
+  FaHeart,
+} from "react-icons/fa";
 import { motion } from "framer-motion";
 
 // Motion components
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
+const MotionBox = motion.create(Box);
+const MotionFlex = motion.create(Flex);
 
 const Footer = () => {
-  const primaryColor = useColorModeValue('primary.solid', 'primary.solid');
-  const accentColor = useColorModeValue('accent.solid', 'accent.solid');
-  const sectionBg = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('fg.DEFAULT', 'fg.DEFAULT');
-  const textMuted = useColorModeValue('gray.600', 'gray.400');
+  const accentColor = useColorModeValue("accent.solid", "accent.solid");
+  const sectionBg = useColorModeValue("gray.50", "gray.900");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const textMuted = useColorModeValue("gray.600", "gray.400");
 
   // Animation variants
   const containerVariants = {
@@ -32,9 +35,9 @@ const Footer = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const itemVariants = {
@@ -44,9 +47,9 @@ const Footer = () => {
       y: 0,
       transition: {
         duration: 0.4,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
@@ -68,9 +71,10 @@ const Footer = () => {
           align="center"
           gap={6}
         >
-        
           {/* Social Links */}
-          <HStack gap={1}>            <IconButtonLink
+          <HStack gap={1}>
+        
+            <IconButtonLink
               href="https://www.linkedin.com/in/gonzalocorral/"
               icon={FaLinkedin}
               label="LinkedIn"
@@ -82,28 +86,26 @@ const Footer = () => {
               label="GitHub"
               color={useColorModeValue("#333", "#fff")}
             />
-            <IconButtonLink
+                     <IconButtonLink
               href="mailto:youremail@example.com"
               icon={FaEnvelope}
               label="Email"
               color={accentColor}
             />
           </HStack>
+             <Link href="/resume.pdf" download="Gonzalo_Corral_Resume.pdf">
+              <Button
+                as="a"
+                colorScheme="primary"
+                size="md"
+                _hover={{ transform: "translateY(-2px)" }}
+                transition="all 0.2s"
+                aria-label="Download Resume"
+              >
+                Download Resume <Icon as={FaDownload} ml={2} colorPalette={accentColor} />
+              </Button>
+            </Link>
 
-            {/* Resume Download Button */}
-          <Button
-            as="a"
-            href="/resume.pdf"
-            download="Gonzalo_Corral_Resume.pdf"
-            colorScheme="primary"
-            size="md"
-            leftIcon={<FaDownload />}
-            _hover={{ transform: "translateY(-2px)" }}
-            transition="all 0.2s"
-            aria-label="Download Resume"
-          >
-            Download Resume
-          </Button>
 
 
           {/* Copyright */}
@@ -136,12 +138,11 @@ const IconButtonLink: React.FC<IconButtonLinkProps> = ({
   label,
   color,
 }) => {
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const cardBg = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
 
   return (
-    <Box
-      as="a"
+    <Link
       href={href}
       target="_blank"
       rel="noopener noreferrer"
@@ -159,9 +160,10 @@ const IconButtonLink: React.FC<IconButtonLinkProps> = ({
       transition="all 0.3s ease"
       cursor="pointer"
       aria-label={label}
+      display="inline-block"
     >
       <Icon as={icon} boxSize={5} color={color} />
-    </Box>
+    </Link>
   );
 };
 
